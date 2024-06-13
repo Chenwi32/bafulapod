@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "BafulaPod",
   description: "Bafut Language Podcast Platform",
   icons: {
-    icon: "",
+    icon: "/icons/logo.svg",
   },
 };
 
