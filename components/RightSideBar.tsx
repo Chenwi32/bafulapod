@@ -1,8 +1,8 @@
 const RightSideBar = () => {
     return (
-        <div>
+        <section className="righ_sidebar">
             <h1 className="font-extrabold text-xl">Profile Information</h1>
-        </div>
+        </section>
     );
 }
 
