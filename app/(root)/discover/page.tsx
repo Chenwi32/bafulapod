@@ -1,8 +1,8 @@
 const DiscoverPage = () => {
     return (
-        <div>
-            <h1> Discover Page</h1>
-        </div>
+      <div>
+        <h1 className="font-extrabold text-xl"> Discover Page</h1>
+      </div>
     );
 }
 

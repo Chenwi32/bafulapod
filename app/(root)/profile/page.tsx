@@ -1,8 +1,8 @@
 const page = () => {
     return (
-        <div>
-           Profile Page
-        </div>
+      <div>
+        <h1 className="font-extrabold text-xl">Profile Page</h1> 
+      </div>
     );
 }
 
