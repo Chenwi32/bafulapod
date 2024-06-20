@@ -33,8 +33,8 @@ export default function RootLayout({
                 <Image src={"/icons/logo1.svg"} width={40} height={50} alt="Menu Icon" />
               <MobileNav/>
               </div>
-              <div className="flex flex-col md:pb-14">
-                Toaster
+              <div className="flex flex-col py-10 md:pb-14">
+                {/* Toaster */}
                 {children}
               </div>
             </div>
