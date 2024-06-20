@@ -5,7 +5,9 @@ import { podcastData } from "@/constants";
 const page = () => {
   return (
     <div className="container">
-      {podcastData.map(
+
+      <div className="grid grid-cols-3 gap-4">
+        {podcastData.map(
         ({
           id,
           title,
@@ -16,7 +18,7 @@ const page = () => {
           title: string;
           imgURL: string;
           description: string;
-        }) => (
+          }) => (
           <PodcastCard
             key={id}
             id={id}
@@ -26,9 +28,11 @@ const page = () => {
           />
         )
       )}
+      </div>
+      
 
-      <h1 className="text-5xl font-bold">Home Page</h1>
-      <Button className="text-white bg-orange-400">Button</Button>
+{/*       <h1 className="text-5xl font-bold">Home Page</h1>
+      <Button className="text-white bg-orange-400">Button</Button> */}
     </div>
   );
 };
