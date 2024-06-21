@@ -6,6 +6,7 @@ import Image from "next/image";
 import RightSideBar from "@/components/RightSideBar";
 import MobileNav from "@/components/MobileNav";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -35,7 +36,9 @@ export default function RootLayout({
               </div>
               <div className="flex flex-col py-10 md:pb-14">
                 {/* Toaster */}
-                {children}
+             
+                  {children}
+            
               </div>
             </div>
           </section>
