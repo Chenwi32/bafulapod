@@ -6,8 +6,8 @@ import ConvexClerkProvider from "./providers/ConvexClerkProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BafulaPod",
-  description: "Bafut Language Podcast Platform",
+  title: "NativeLanPod",
+  description: "Native Language Podcast Platform",
   icons: {
     icon: "/icons/logo.svg",
   },
