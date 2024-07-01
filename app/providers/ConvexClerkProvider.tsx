@@ -21,26 +21,28 @@ const convex = new ConvexReactClient(
   process.env.NEXT_PUBLIC_CONVEX_URL as string
 );
 
-const ConvexClerkProvider = ({ children }: {children: ReactNode}) => (
-  
-  <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY as string} appearance={{
-    layout: {
-      socialButtonsVariant: "iconButton",
-      logoImageUrl: '/icons/logo.svg'
-    },
-    variables: {
-      colorBackground: "#000",
-      colorPrimary: "",
-      colorText: "#fff",
-      colorInputBackground: "#fff",
-      colorInputText: "#000",
-    }
-  }} >
-      <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-        {children}
-      </ConvexProviderWithClerk>
-    </ClerkProvider>
-
+const ConvexClerkProvider = ({ children }: { children: ReactNode }) => (
+  <ClerkProvider
+    publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY as string}
+    appearance={{
+      layout: {
+        socialButtonsVariant: "iconButton",
+        logoImageUrl: "/icons/logo.svg",
+      },
+      variables: {
+        colorBackground: "#303030f3",
+        colorPrimary: "#D94437",
+        colorText: "#fff",
+        colorInputBackground: "#fff",
+        colorTextSecondary: "#fff",
+      
+      },
+    }}
+  >
+    <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
+      {children}
+    </ConvexProviderWithClerk>
+  </ClerkProvider>
 );
 
 
