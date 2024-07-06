@@ -23,7 +23,7 @@ import React, {
   useState,
 } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2 } from "lucide-react";
+import { Icon, Loader2, Upload } from "lucide-react";
 import { GeneratePodcastProps, PodcastCardProps, VoiceType } from "@/types";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -34,6 +34,7 @@ import { podcastData } from "@/constants";
 import { useToast } from "@/components/ui/use-toast";
 import { title } from "process";
 import { useUploadFiles } from "@xixixao/uploadstuff/react";
+import { Toast } from "@/components/ui/toast";
 
 const formSchema = z.object({
   podcastTitle: z.string().min(2, {
@@ -101,6 +102,11 @@ const CreatePodcast = () => {
         .arrayBuffer()
         .then((arrayBuffer) => new Blob([arrayBuffer]));
       handleAudio(blob, file.name);
+      toast({
+        title: "Successfully Uploaded your Podcast",
+        variant: "destructive",
+        type: "foreground",
+      });
     } catch (error) {
       console.log(error);
       toast({ title: "Error Uploading Podcast", variant: "destructive" });
@@ -109,13 +115,30 @@ const CreatePodcast = () => {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    try {
+      setIsSubmitting(true);
+      if (!audio)
+
+      toast({
+        title: "Successfull",
+        description: "You have successfully published your podcast",
+        variant: "destructive",
+        type: "foreground",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error publishing your podcast",
+        variant: "destructive",
+        type: "foreground",
+      });
+      setIsSubmitting(false);
+    }
   }
 
   return (
     <section className="container max-w-lg">
+      <Toast />
       <h1 className="font-bold text-xl mb-12">Create Podcast</h1>
       <Form {...form}>
         <form
@@ -167,40 +190,47 @@ const CreatePodcast = () => {
             />
           </div>
 
-          <div className="flex flex-col ">
-            <FormField
-              control={form.control}
-              name="podcastTitle"
-              render={({ field }) => (
-                <FormItem className="flex flex-col gap-2.5">
-                  <FormLabel className="text-16 font-bold">
-                    select your podcast
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      accept="audio/*"
-                      ref={podcastInput}
-                      onChange={(e) => upLoadAudio(e)}
-                      disabled={selectedPodcast !== null}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div>
+          <div className="flex flex-col w-80 m-auto">
+            <div
+              className="flex flex-col h-40  bg-slate-300 items-center cursor-pointer "
+              onClick={() => podcastInput?.current?.click()}
+            >
+              <Input
+                className="hidden"
+                type="file"
+                ref={podcastInput}
+                onChange={(e) => upLoadAudio(e)}
+                disabled={isUploading}
+              />
               {isUploading ? (
-                <>
-                  Uploading <Loader2 className="spin-in-1"/>
-                </>
+                <div className="flex gap-5 mt-5 justify-center items-center h-full w-full">
+                  Uploading <Loader2 className="animate-spin" />
+                </div>
               ) : (
-                <>
-                   <audio src={audio} controls />
-                </>
+                <div className="flex flex-col gap-2 mt-5 justify-center items-center h-full w-full">
+                  <Upload className="size-10" />
+                  <span>Upload Podcast</span>
+                  <span className="font-thin text-14 text-slate-700">
+                    File type: mpeg or ogg
+                  </span>
+                </div>
               )}
             </div>
+            <span className="font-bold text-16 mt-2">
+              Select The Audio file
+            </span>
+          </div>
+
+          <div>
+            {isUploading ? (
+              <div className="flex gap-5 mt-5 justify-center items-center h-full w-full">
+                Uploading <Loader2 className="animate-spin space-x-2" />
+              </div>
+            ) : (
+              <>
+                <audio src={audio} controls />
+              </>
+            )}
           </div>
 
           <Button
