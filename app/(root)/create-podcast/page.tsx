@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { typecast, z } from "zod";
+import { string, typecast, z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,19 +15,25 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useState } from "react";
+import React, {
+  ReactElement,
+  ReactEventHandler,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 import { Textarea } from "@/components/ui/textarea";
-import GeneratePodcast from "@/components/GeneratePodcast";
-import GenerateThumbnail from "@/components/GenerateThumbnail";
 import { Loader2 } from "lucide-react";
 import { GeneratePodcastProps, PodcastCardProps, VoiceType } from "@/types";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { v4 as uuidv4 } from "uuid";
+import { query } from "@/convex/_generated/server";
+import { useUser } from "@clerk/nextjs";
+import { podcastData } from "@/constants";
+import { useToast } from "@/components/ui/use-toast";
+import { title } from "process";
+import { useUploadFiles } from "@xixixao/uploadstuff/react";
 
 const formSchema = z.object({
   podcastTitle: z.string().min(2, {
@@ -36,26 +42,25 @@ const formSchema = z.object({
   podcastDescription: z.string().min(2, {
     message: "Please make the description a litle more explicit.",
   }),
+  /*  podcast: (2, {
+    message: "Please make the description a litle more explicit.",
+  }), */
   Id: z.string(),
 });
 
+////////////////////// Main Function //////////////////////////////
 const CreatePodcast = () => {
-  const [imagePrompt, setImagePrompt] = useState("");
-  const [imageStorageId, setImageStorageId] = useState<GeneratePodcastProps | null>(
-    null
-  );
-  const [imageUrl, setImageUrl] = useState("");
-
-  const [audioUrl, setAudioUrl] = useState("");
-  const [audioStorageId, setAudioStorageId] = useState < GeneratePodcastProps | null>(null);
-  const [audioDuration, setAudioDuration] = useState(0);
-
-  const [voicePrompt, setVoicePrompt] = useState("");
-
-  const [voiceType, setVoiceType] = useState<VoiceType | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [audio, setAudio] = useState("");
+  const { toast } = useToast();
 
-  // 1. Define your form.
+  const podcastInput = useRef<HTMLInputElement>(null);
+  const [selectedPodcast, setSelectedPodcast] = useState<File | null>(null);
+  const [storageId, setStorageId] = useState<File | null>(null);
+  const { user } = useUser();
+
+  // 1. Form Defination.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,14 +69,50 @@ const CreatePodcast = () => {
     },
   });
 
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+  const { startUpload } = useUploadFiles(generateUploadUrl);
+  const getAudioUrl = useMutation(api.podcast.getUrl);
+
+  const handleAudio = async (blob: Blob, fileName: string) => {
+    setIsUploading(true);
+    setSelectedPodcast(null);
+    try {
+      const file = new File([blob], fileName, { type: "audio/mp3" });
+      const uploaded = await startUpload([file]);
+      const storageId = (uploaded[0].response as any).storageId;
+      setStorageId(storageId);
+
+      const audioUrl = await getAudioUrl({ storageId });
+      setAudio(audioUrl!);
+      setIsUploading(false);
+    } catch (error) {
+      console.log(error);
+      toast({ title: "Error Uploading Podcast", variant: "destructive" });
+    }
+  };
+
+  const upLoadAudio = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    try {
+      const files = e.target.files;
+      if (!files) return;
+      const file = files[0];
+      const blob = await file
+        .arrayBuffer()
+        .then((arrayBuffer) => new Blob([arrayBuffer]));
+      handleAudio(blob, file.name);
+    } catch (error) {
+      console.log(error);
+      toast({ title: "Error Uploading Podcast", variant: "destructive" });
+    }
+  };
+
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
-
-  const voiceCategory = ["alloy", "shimmer", "nova", "echo", "fable", "onyx"];
 
   return (
     <section className="container max-w-lg">
@@ -81,7 +122,7 @@ const CreatePodcast = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col w-full gap-12"
         >
-          <div className="flex flex-col gap-[30px]  pb-20 border-b border-slate-800">
+          <div className="flex flex-col gap-[30px]">
             <FormField
               control={form.control}
               name="podcastTitle"
@@ -103,36 +144,6 @@ const CreatePodcast = () => {
                 </FormItem>
               )}
             />
-
-            <div className="flex flex-col gap-2.5 w-full">
-              <label className="text-16 font-bold "> Select AI Voice</label>
-
-              <Select onValueChange={(value) => setVoiceType(value)}>
-                <SelectTrigger className="w-full text-lg  rounded">
-                  <SelectValue placeholder="Select AI Voice" />
-                </SelectTrigger>
-                <SelectContent className=" bg-slate-100 font-bold focus:ring-orange-400">
-                  {voiceCategory.map((category) => {
-                    return (
-                      <SelectItem
-                        className=" capitalize focus:bg-orange-400 focus:text-slate-100 "
-                        key={category}
-                        value={category}
-                      >
-                        {category}
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-                {voiceType && (
-                  <audio
-                    src={`/${voiceType}.mp3`}
-                    autoPlay
-                    className="hidden"
-                  />
-                )}
-              </Select>
-            </div>
 
             <FormField
               control={form.control}
@@ -156,19 +167,40 @@ const CreatePodcast = () => {
             />
           </div>
 
-          <div className="flex flex-col pt-10 ">
-            <GeneratePodcast
-              voiceType={voiceType}
-              voicePrompt={voicePrompt}
-              setAudio={setAudioUrl}
-              setAudioStorageId={setAudioStorageId}
-              audio={audioUrl}
-              setAudioDuration={setAudioDuration}
-              setVoicePrompt={setVoicePrompt}
-            />
-            <GenerateThumbnail />
+          <div className="flex flex-col ">
+            <FormField
+              control={form.control}
+              name="podcastTitle"
+              render={({ field }) => (
+                <FormItem className="flex flex-col gap-2.5">
+                  <FormLabel className="text-16 font-bold">
+                    select your podcast
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      accept="audio/*"
+                      ref={podcastInput}
+                      onChange={(e) => upLoadAudio(e)}
+                      disabled={selectedPodcast !== null}
+                    />
+                  </FormControl>
 
-            <div className="mt"></div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div>
+              {isUploading ? (
+                <>
+                  Uploading <Loader2 className="spin-in-1"/>
+                </>
+              ) : (
+                <>
+                   <audio src={audio} controls />
+                </>
+              )}
+            </div>
           </div>
 
           <Button
