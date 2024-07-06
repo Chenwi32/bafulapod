@@ -9,8 +9,9 @@ import type { WebhookEvent } from "@clerk/nextjs/server";
 import { httpRouter } from "convex/server";
 import { Webhook } from "svix";
 
-import { internal } from "./_generated/api";
+import { api, internal } from "./_generated/api";
 import { httpAction } from "./_generated/server";
+import { useUser } from "@clerk/nextjs";
 
 const handleClerkWebhook = httpAction(async (ctx, request) => {
   const event = await validateRequest(request);
@@ -73,5 +74,32 @@ const validateRequest = async (
   const event = wh.verify(payloadString, svixHeaders);
   return event as unknown as WebhookEvent;
 };
+
+
+http.route({
+  path: "/create-podcast",
+  method: "POST",
+  handler: httpAction(async (ctx, request) => {
+    const author = useUser().user?.fullName
+    // Step 1: Store the file
+    const blob = await request.blob();
+    const storageId = await ctx.storage.store(blob);
+
+    // Step 2: Save the storage ID to the database via a mutation
+    // const author = new URL(request.url).searchParams.get("author");
+    await ctx.runMutation(api.podcast.send, { storageId, author});
+
+    // Step 3: Return a response with the correct CORS headers
+    return new Response(null, {
+      status: 200,
+      // CORS headers
+      headers: new Headers({
+        // e.g. https://mywebsite.com, configured on your Convex dashboard
+        "Access-Control-Allow-Origin": process.env.CLIENT_ORIGIN!,
+        Vary: "origin",
+      }),
+    });
+  }),
+});
 
 export default http;

@@ -4,34 +4,70 @@ import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { uploadFiles } from "@xixixao/uploadstuff";
+import { v4 as uuidv4 } from "uuid";
+import { useUploadFiles } from "@xixixao/uploadstuff/react";
+import { Input } from "./ui/input";
 
-const useGeneratePodcast = ({setAudio, voicePrompt, setAudioStorageId}: GeneratePodcastProps) => {
 
-    const [isGenerating, setisGenerating] = useState(false)
+/* 
+const useGeneratePodcast = ({
+  setAudio,
+  voicePrompt,
+  setAudioStorageId,
+}: GeneratePodcastProps) => {
+  const [isGenerating, setisGenerating] = useState(false);
 
-    const generatePodcast =  async() => {
-        setisGenerating(true)
-        setAudio('')
-        if (!voicePrompt) {
+  
+
+  const generatePodcast = async (e: React.ChangeEvent<HTMLInputElement>) => {
+
+
+    setisGenerating(true);
+    setAudio("");
+    /* if (!voicePrompt) {
             return setisGenerating(false)
-        }
-
-        try {
-            
-        } catch (error) {
-            console.log("Error generating podcast")
-            // Taost
-            setisGenerating(false)
-        }
+        } / const files = Array.from(e.target.files);
+    if (files.length === 0) {
+      
+      return;
     }
-    return {
-        isGenerating,
-        generatePodcast
+    try {
+      // optionally: do something with `files`...
+      const uploaded = await startUpload([files]);
+      // optionally: do something with the response...
+    } catch (error) {
+      console.log("Error uploading podcast");
+      // Taost
+      setisGenerating(false);
     }
-}
+  };
+  return {
+    isGenerating,
+    generatePodcast,
+  };
+}; */
 
-const GeneratePodcast = (props: GeneratePodcastProps) => {
-    const {isGenerating, generatePodcast} = useGeneratePodcast(props);
+const GeneratePodcast = ({setAudio, voicePrompt, setAudioStorageId}: GeneratePodcastProps) => {
+ const [isUploading, setisUploading] = useState(false);
+  
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+  const { startUpload } = useUploadFiles(generateUploadUrl);
+  const getAudioUrl = useMutation(api.podcast.getUrl)
+  const [uploaded, setUploaded] = useState([])
+
+  const uploadPodcast = async () => {
+
+    setisUploading(true)
+
+     const storageId = (uploaded[0] as any).storageId;
+
+    console.log(storageId)
+     setAudioStorageId(storageId);
+     /* const audioUrl = await getAudioUrl({ storageId }); */
+  }
 
   return (
     <div className="mb-12">
@@ -40,43 +76,64 @@ const GeneratePodcast = (props: GeneratePodcastProps) => {
         <Label className="text-16 font-bold">
           AI prompt to generate a podcast
         </Label>
-        <Textarea
+        <Input
           placeholder="Give a prompt for me to generate a podcast"
           className="input-class focus:ring-offset-orange-400"
-          rows={5}
-         /*  value={voicePrompt}
-          onChange={(e) => {
-            setVoicePrompt(e.target.value);
-          }} */
-        ></Textarea>
+          type="file"
+          onChange={async (e: React.ChangeEvent<HTMLInputElement | null>) => {
+            if (!e.target.files) return; // Handle no files case
+
+            const files = e.target.files as FileList;
+
+            if (files.length === 0) {
+              return;
+            }
+
+            try {
+      // optionally: do something with `files`...
+              const upload = await startUpload([files] as any);
+              
+             setUploaded(upload as any)
+      // optionally: do something with the response...
+    } catch (error) {
+      console.log("Error uploading podcast");
+      // Taost
+      setisUploading(false);
+    }
+
+            // optionally: do something with the response...
+          }}
+        />
       </div>
-      <div className="mt-5 w-full max-w-[200px">
+      <div className="mt-5 w-full max-w-[200px]">
         <Button
           className="text-white hover:bg-slate-700 font-bold bg-orange-400 w-fit box-border rounded"
-                  type="submit"
-                  onClick={e => {
-                      e.preventDefault()
-
-                  }}
+          type="submit"
+          onClick={(e) => {
+            e.preventDefault();
+            uploadPodcast()
+          }}
         >
-          {isGenerating ? (
+          {isUploading ? (
             <>
-              Generating <Loader2 className="ml-3 animate-spin" />
+              Uploadinging <Loader2 className="ml-3 animate-spin" />
             </>
           ) : (
-            "Generate Podcast"
+            "Upload Podcast"
           )}
         </Button>
       </div>
-      {props.audio && (
+    {/*   { && (
         <audio
           controls
           src={props.audio}
-          autoPlay 
+          autoPlay
           className="mt-5"
-          onLoadedMetadata={(e) => props.setAudioDuration(e.currentTarget.duration)}
+          onLoadedMetadata={(e) =>
+            props.setAudioDuration(e.currentTarget.duration)
+          }
         />
-      )}
+      )} */}
     </div>
   );
 };
