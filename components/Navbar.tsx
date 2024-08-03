@@ -13,7 +13,7 @@ const Navbar = () => {
     const pathName = usePathname();
     const router = useRouter();
   return (
-    <nav className="flex justify-between container fixed items-center w-full bg-white z-10 py-3 px-5 shadow-lg mb-5">
+    <nav className="flex justify-between container p-0 items-center ">
       <Link href={"/"}>
         <Image src="/icons/logo.svg" width={50} alt="logo" height={50} />
       </Link>

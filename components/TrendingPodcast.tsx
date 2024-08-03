@@ -8,7 +8,7 @@ const TrendingPodcast = () => {
     return (
       <div>
         <h1 className="font-bold text-xl mb-5">Trending Podcast</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2  gap-5 sm:gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2  gap-5 ">
           {podcastData?.map(
             ({
               author,
