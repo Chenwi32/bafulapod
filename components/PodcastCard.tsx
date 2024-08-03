@@ -14,7 +14,7 @@ const PodcastCard = ({
   author: string;
 }) => {
   return (
-    <div className="bg-slate-200 shadow-lg p-5 lg:p-10 w-full rounded">
+    <div className="bg-slate-200 shadow-lg p-5 lg:p-8 w-full rounded">
       <figure className="flex w-full justify-center flex-col gap-2">
         {/* <Image
           className="aspect-square h-fit w-full rounded-xl 2xl:size-[200px]"
@@ -23,7 +23,7 @@ const PodcastCard = ({
           height={200}
           src={imgURL}
         /> */}
-        <audio src={audioUrl} controls />
+        <audio className="w-auto" src={audioUrl} controls />
 
         <h1 className="text-xl font-bold truncate">{title}</h1>
         <h1 className="  truncate">
