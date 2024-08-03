@@ -5,11 +5,17 @@ import "../globals.css";
 import Image from "next/image";
 import RightSideBar from "@/components/RightSideBar";
 import MobileNav from "@/components/MobileNav";
-import {ToastProvider } from "@/components/ui/toast";
+import { ToastProvider } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import Navbar from "@/components/Navbar";
-
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,12 +41,12 @@ export default function Layout({
               <Navbar />
             </div>
 
-            <div className=" container p-0 flex top-28 justify-between relative ">
+            <div className=" container p-0 sm:p-5 flex top-20 justify-between relative ">
               <div className="hidden lg:block">
                 <LeftSideBar />
               </div>
 
-              <section className=" flex flex-1 min-h-screen flex-col  px-4 sm:px-14">
+              <section className=" flex flex-1 min-h-screen flex-col  px-1 sm:px-14">
                 <div className="mx-auto flex w-full max-w-5xl flex-col max-sm:px-4">
                   <div className="flex flex-col py-10 md:pb-14">
                     <Toaster />
