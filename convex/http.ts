@@ -12,6 +12,7 @@ import { Webhook } from "svix";
 import { api, internal } from "./_generated/api";
 import { httpAction } from "./_generated/server";
 import { useUser } from "@clerk/nextjs";
+import { any } from "zod";
 
 const handleClerkWebhook = httpAction(async (ctx, request) => {
   const event = await validateRequest(request);
@@ -75,7 +76,32 @@ const validateRequest = async (
   return event as unknown as WebhookEvent;
 };
 
+http.route({
+  path: "/create-podcast",
+  method: "POST",
 
+  handler: httpAction(async (ctx, request) => {
+    // Step 1: Store the file
+    const blob = await request.blob();
+    const audioStorageId: any = await ctx.storage.store(blob);
+
+    // Step 2: Save the storage ID to the database via a mutation
+    // const author = new URL(request.url).searchParams.get("author");
+    await ctx.runMutation(api.podcast.createPodcast, { audioStorageId});
+
+    // Step 3: Return a response with the correct CORS headers
+    return new Response(null, {
+      status: 200,
+      // CORS headers
+      headers: new Headers({
+        // e.g. https://mywebsite.com, configured on your Convex dashboard
+        "Access-Control-Allow-Origin": process.env.CLIENT_ORIGIN!,
+        Vary: "origin",
+      }),
+    });
+  }),
+});
+/* 
 http.route({
   path: "/create-podcast",
   method: "POST",
@@ -101,5 +127,5 @@ http.route({
     });
   }),
 });
-
+ */
 export default http;

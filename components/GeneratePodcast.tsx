@@ -10,45 +10,52 @@ import { uploadFiles } from "@xixixao/uploadstuff";
 import { v4 as uuidv4 } from "uuid";
 import { useUploadFiles } from "@xixixao/uploadstuff/react";
 import { Input } from "./ui/input";
+import { useToast } from "./ui/use-toast";
 
 
-/* 
 const useGeneratePodcast = ({
   setAudio,
-  voicePrompt,
   setAudioStorageId,
 }: GeneratePodcastProps) => {
-  const [isGenerating, setisGenerating] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const { toast } = useToast();
 
-  
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+  const { startUpload } = useUploadFiles(generateUploadUrl);
 
-  const generatePodcast = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const getAudioUrl = useMutation(api.podcast.getUrl);
 
-
-    setisGenerating(true);
+  const generatePodcast = async () => {
+    setIsGenerating(true);
     setAudio("");
-    /* if (!voicePrompt) {
-            return setisGenerating(false)
-        } / const files = Array.from(e.target.files);
-    if (files.length === 0) {
-      
-      return;
-    }
-    try {
-      // optionally: do something with `files`...
-      const uploaded = await startUpload([files]);
-      // optionally: do something with the response...
+
+      const blob = new Blob([response], { type: "audio/mpeg" });
+      const fileName = `podcast-${uuidv4()}.mp3`;
+      const file = new File([blob], fileName, { type: "audio/mpeg" });
+
+      const uploaded = await startUpload([file]);
+      const storageId = (uploaded[0].response as any).storageId;
+
+      setAudioStorageId(storageId);
+
+      const audioUrl = await getAudioUrl({ storageId });
+      setAudio(audioUrl!);
+      setIsGenerating(false);
+      toast({
+        title: "Podcast generated successfully",
+      });
     } catch (error) {
-      console.log("Error uploading podcast");
-      // Taost
-      setisGenerating(false);
+      console.log("Error generating podcast", error);
+      toast({
+        title: "Error creating a podcast",
+        variant: "destructive",
+      });
+      setIsGenerating(false);
     }
   };
-  return {
-    isGenerating,
-    generatePodcast,
-  };
-}; */
+
+  return { isGenerating, generatePodcast };
+};
 
 const GeneratePodcast = ({setAudio, voicePrompt, setAudioStorageId}: GeneratePodcastProps) => {
  const [isUploading, setisUploading] = useState(false);
