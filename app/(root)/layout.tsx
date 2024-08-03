@@ -30,33 +30,31 @@ export default function Layout({
     <html>
       <ToastProvider>
         <body className="relative flex flex-col">
-          <div className="relative">
-            <Navbar/>
+          <div>
+            <div className=" bg-white z-10 py-2 px-5 shadow-lg fixed w-full mb-5">
+              <Navbar />
+            </div>
+
             <div className=" container p-0 flex top-28 justify-between relative ">
               <div className="hidden lg:block">
-                 <LeftSideBar />
+                <LeftSideBar />
               </div>
-           
 
-            <section className=" flex flex-1 min-h-screen flex-col  px-4 sm:px-14">
-              
-              <div className="mx-auto flex w-full max-w-5xl flex-col max-sm:px-4">
-                
-                <div className="flex flex-col py-10 md:pb-14">
-                  <Toaster />
+              <section className=" flex flex-1 min-h-screen flex-col  px-4 sm:px-14">
+                <div className="mx-auto flex w-full max-w-5xl flex-col max-sm:px-4">
+                  <div className="flex flex-col py-10 md:pb-14">
+                    <Toaster />
 
-                  {children}
+                    {children}
+                  </div>
                 </div>
-              </div>
-            </section>
+              </section>
 
               <div className="hidden lg:block">
-                 <RightSideBar />
+                <RightSideBar />
               </div>
-           
+            </div>
           </div>
-          </div>
-          
         </body>
       </ToastProvider>
     </html>
