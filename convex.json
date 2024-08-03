@@ -1,0 +1,7 @@
+{
+  "generateCommonJSApi": true,
+  "platform": "node",
+  "node": {
+    "externalPackages": ["*"]
+  }
+}
