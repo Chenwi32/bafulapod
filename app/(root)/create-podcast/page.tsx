@@ -1,42 +1,22 @@
 "use client";
 import React, {
-  ReactElement,
-  ReactEventHandler,
-  useContext,
   useRef,
   useState,
 } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, } from "react-hook-form";
 import {  z } from "zod";
 
-import { Button } from "@/components/ui/button";
 
 
-import { Icon, Loader2, Upload } from "lucide-react";
+import { Loader2, Upload } from "lucide-react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { v4 as uuidv4 } from "uuid";
 import { useToast } from "@/components/ui/use-toast";
 
 import { useUploadFiles } from "@xixixao/uploadstuff/react";
 import { Toast } from "@/components/ui/toast";
 import { Id } from "@/convex/_generated/dataModel";
 import { useRouter } from "next/navigation";
-import { podcastData } from '../../../constants/index';
-
-const formSchema = z.object({
-  podcastTitle: z.string().min(2, {
-    message: "Invalid Title",
-  }),
-  podcastDescription: z.string().min(2, {
-    message: "Please make the description a litle more explicit.",
-  }),
-  audioUrl: z.string().min(2, {
-    message: "Please make the description a litle more explicit.",
-  }),
-
-  Id: z.string(),
-});
 
 ////////////////////// Main Function //////////////////////////////
 const CreatePodcast = () => {
@@ -44,7 +24,6 @@ const CreatePodcast = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [audioUrl, setAudioUrl] = useState("");
-  const [podcastData, setPodcastData] = useState({});
   const { toast } = useToast();
 
   const podcastInput = useRef<HTMLInputElement>(null);
@@ -54,16 +33,10 @@ const CreatePodcast = () => {
   const [podcastDescription, setPodcastDescription] = useState<string>(''); */
 
   const publishPodcast = useMutation(api.podcast.createPodcast);
-  type FormValues = {
-    podcastTitle: string;
-    podcastDescription: string;
-  };
 
  const {
    register,
    handleSubmit,
-   formState: { errors },
-   formState,
  } = useForm();
 
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
@@ -114,7 +87,7 @@ const CreatePodcast = () => {
   // 2. Define a submit handler.
 
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: any) => {
       if (
         audioUrl === "" ||
         null ||
