@@ -11,7 +11,7 @@ import { Webhook } from "svix";
 
 import { api, internal } from "./_generated/api";
 import { httpAction } from "./_generated/server";
-import { useUser } from "@clerk/nextjs";
+import { PodcastProps } from '../types/index';
 import { any } from "zod";
 
 const handleClerkWebhook = httpAction(async (ctx, request) => {
@@ -83,11 +83,11 @@ http.route({
   handler: httpAction(async (ctx, request) => {
     // Step 1: Store the file
     const blob = await request.blob();
-    const audioStorageId: any = await ctx.storage.store(blob);
+    const audioStorageId = await ctx.storage.store(blob);
 
     // Step 2: Save the storage ID to the database via a mutation
     // const author = new URL(request.url).searchParams.get("author");
-    await ctx.runMutation(api.podcast.createPodcast, { audioStorageId});
+    await ctx.runMutation(api.podcast.createPodcast, audioStorageId as any);
 
     // Step 3: Return a response with the correct CORS headers
     return new Response(null, {
