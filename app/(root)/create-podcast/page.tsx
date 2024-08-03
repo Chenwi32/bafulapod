@@ -22,6 +22,7 @@ import { useUploadFiles } from "@xixixao/uploadstuff/react";
 import { Toast } from "@/components/ui/toast";
 import { Id } from "@/convex/_generated/dataModel";
 import { useRouter } from "next/navigation";
+import { podcastData } from '../../../constants/index';
 
 const formSchema = z.object({
   podcastTitle: z.string().min(2, {
@@ -239,22 +240,17 @@ const CreatePodcast = () => {
           )}
         </div>
 
-        {/* <Button
-            type="submit"
-            /*  onClick={(e) => {
-              e.preventDefault();
-            }} /
-            className="text-white hover:bg-slate-700 font-bold bg-orange-400 w-fit box-border rounded"
-          >
-            {isSubmitting ? (
-              <>
+        <button
+           className="text-white font-extrabold py-2 px-10 w-fit bg-orange-400 rounded"
+          type="submit"
+        
+        >{isSubmitting ? (
+              <span className="flex justify-between">
                 Submitting <Loader2 className="ml-3 animate-spin" />
-              </>
+              </span>
             ) : (
               "Publish Podcast"
-            )}
-          </Button> */}
-        <input type="submit" />
+            )}</button>
       </form>
     </section>
   );

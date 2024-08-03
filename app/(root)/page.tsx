@@ -1,44 +1,36 @@
 "use client";
 import PodcastCard from "@/components/PodcastCard";
 import { Button } from "@/components/ui/button";
-import { podcastData } from "@/constants";
+
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 
 const page = () => {
-   //const tasks = useQuery(api.tasks.get);
+   const podcastData = useQuery(api.podcast.get);
   return (
-    <div className="container">
-      <div className="grid grid-cols-3 gap-4">
-        {podcastData.map(
+    <div className="container p-0">
+
+      <h1 className="font-bold text-xl mb-5">Trending Podcast</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2  gap-5 sm:gap-10">
+        {podcastData?.map(
           ({
-            id,
-            title,
-            imgURL,
-            description,
-          }: {
-            id: number;
-            title: string;
-            imgURL: string;
-            description: string;
+            author,
+            podcastTitle,
+            podcastDescription,
+            audioUrl,
+            audioStorageId,
           }) => (
             <PodcastCard
-              key={id}
-              id={id}
-              title={title}
-              description={description}
-              imgURL={imgURL}
+              key={audioStorageId}
+              id={audioStorageId}
+              title={podcastTitle}
+              description={podcastDescription}
+              audioUrl={audioUrl}
+              author={author}
             />
           )
         )}
       </div>
-
-      <div className="text-bold text-3xl mt-10">
-    {/*     {tasks?.map(({ _id, text }) => <div key={_id}>{text}</div>)} */}
-      </div>
-
-      {/*       <h1 className="text-5xl font-bold">Home Page</h1>
-      <Button className="text-white bg-orange-400">Button</Button> */}
     </div>
   );
 };
