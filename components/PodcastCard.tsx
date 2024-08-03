@@ -23,7 +23,7 @@ const PodcastCard = ({
           height={200}
           src={imgURL}
         /> */}
-        <audio className="w-auto" src={audioUrl} controls />
+        <audio className="w-auto text-3" src={audioUrl} controls />
 
         <h1 className="text-xl font-bold truncate">{title}</h1>
         <h1 className="  truncate">
