@@ -56,9 +56,9 @@ export default function Layout({
                 </div>
               </section>
 
-              <div className="hidden lg:block">
+           {/*    <div className="hidden lg:block">
                 <RightSideBar />
-              </div>
+              </div> */}
             </div>
           </div>
         </body>

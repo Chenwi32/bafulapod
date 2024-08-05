@@ -172,7 +172,7 @@ const CreatePodcast = () => {
           />
         </div>
 
-        <div className="flex flex-col w-80 m-auto">
+        <div className="flex flex-col w-50 m-auto">
           <div
             className="flex flex-col h-40  bg-slate-300 items-center cursor-pointer "
             onClick={() => podcastInput?.current?.click()}
@@ -208,7 +208,10 @@ const CreatePodcast = () => {
             </div>
           ) : (
             <>
-              <audio src={audioUrl} controls />
+                <div className="flex w-full justify-center flex-col gap-2">
+                  <audio className="w-auto text-3" src={audioUrl} controls />
+                </div>
+                 
             </>
           )}
         </div>
