@@ -141,13 +141,13 @@ const CreatePodcast = () => {
   
 
   return (
-    <section className="container max-w-lg">
+    <section className="container max-w-lg p-0 flex flex-col">
       <Toast />
-      <h1 className="font-bold text-xl mb-12">Create Podcast</h1>
+      <h1 className="font-bold text-xl mb-12">Upload Podcast</h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-full gap-12"
+        className="flex flex-col w-full gap-12 "
       >
         <div className="flex flex-col gap-[30px]">
           <label className="text-16 font-bold">
@@ -172,9 +172,9 @@ const CreatePodcast = () => {
           />
         </div>
 
-        <div className="flex flex-col w-50 m-auto">
+        <div className="flex flex-col w-56 m-auto">
           <div
-            className="flex flex-col h-40  bg-slate-300 items-center cursor-pointer "
+            className="flex flex-col h-40 w-full  bg-slate-300 items-center cursor-pointer "
             onClick={() => podcastInput?.current?.click()}
           >
             <input
@@ -192,7 +192,7 @@ const CreatePodcast = () => {
               <div className="flex flex-col gap-2 mt-5 justify-center items-center h-full w-full">
                 <Upload className="size-10" />
                 <span>Upload Podcast</span>
-                <span className="font-thin text-14 text-slate-700">
+                <span className="font-thin text-14 text-slate-900">
                   File type: mpeg or ogg
                 </span>
               </div>
@@ -201,7 +201,7 @@ const CreatePodcast = () => {
           <span className="font-bold text-16 mt-2">Select The Audio file</span>
         </div>
 
-        <div>
+        <div className="w-full flex flex-col items-center">
           {isUploading ? (
             <div className="flex gap-5 mt-5 justify-center items-center h-full w-full">
               Uploading <Loader2 className="animate-spin space-x-2" />
@@ -214,10 +214,9 @@ const CreatePodcast = () => {
                  
             </>
           )}
-        </div>
 
         <button
-           className="text-white font-extrabold py-2 px-10 w-fit bg-orange-400 rounded"
+           className="text-white font-extrabold py-2 mt-10 px-10 w-fit bg-orange-400 rounded"
           type="submit"
         
         >{isSubmitting ? (
@@ -226,7 +225,10 @@ const CreatePodcast = () => {
               </span>
             ) : (
               "Publish Podcast"
-            )}</button>
+          )}
+        </button>
+        </div>
+
       </form>
     </section>
   );
