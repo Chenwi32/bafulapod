@@ -57,9 +57,10 @@ const Navbar = () => {
                             src={route.ImageUrl}
                             alt="logo"
                             width={20}
-                            height={20}
+                              height={20}
+                              className="mr-2"
                           />
-                          <span className="max-lg:hidden"> {route.label}</span>
+                          <span className="max-lg:"> {route.label}</span>
                           </MenubarItem>
                          
                         </Link>
