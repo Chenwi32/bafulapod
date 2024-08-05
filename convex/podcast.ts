@@ -7,7 +7,9 @@ export const createPodcast = mutation({
     podcastTitle: v.string(),
     podcastDescription: v.string(),
     audioUrl: v.string(),
+    imageUrl: v.string(),
     audioStorageId: v.id("_storage"),
+    imageStoraegId: v.id("_storage"),
 
     views: v.number(),
   },
@@ -31,7 +33,8 @@ export const createPodcast = mutation({
       podcastTitle: args.podcastTitle,
       podcastDescription: args.podcastDescription,
       audioUrl: args.audioUrl,
-
+      imageUrl: args.imageUrl,
+      imageStoraegId: args.imageStoraegId,
       author: user[0].name,
       authorId: user[0].clerkId,
 

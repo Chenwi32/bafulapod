@@ -17,18 +17,28 @@ import { useUploadFiles } from "@xixixao/uploadstuff/react";
 import { Toast } from "@/components/ui/toast";
 import { Id } from "@/convex/_generated/dataModel";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import Image from "next/image";
 
 ////////////////////// Main Function //////////////////////////////
 const CreatePodcast = () => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [audioUrl, setAudioUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const { toast } = useToast();
 
   const podcastInput = useRef<HTMLInputElement>(null);
+  const ImageInput = useRef<HTMLInputElement>(null);
   const [selectedPodcast, setSelectedPodcast] = useState<File | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [storageId, setStorageId] = useState<Id<"_storage"> | null>(null);
+  const [imageStoraegId, setimageStoraegId] = useState<Id<"_storage"> | null>(
+    null
+  );
 /*   const [podcastTitle, setPodcastTitle] = useState<string>('');
   const [podcastDescription, setPodcastDescription] = useState<string>(''); */
 
@@ -63,6 +73,26 @@ const CreatePodcast = () => {
     }
   };
 
+  const handleImage = async (blob: Blob, fileName: string) => {
+    setIsUploadingImage(true);
+    setSelectedImage(null);
+    try {
+      const file = new File([blob], fileName, { type: "image/png" });
+      const uploaded = await startUpload([file]);
+      const storageId = (uploaded[0].response as any).storageId;
+      setimageStoraegId(storageId);
+
+      const imageUrlInput = await getAudioUrl({ storageId });
+
+      setImageUrl(imageUrlInput!);
+      setIsUploadingImage(false);
+    } catch (error) {
+      console.log(error);
+      toast({ title: "Error Uploading Thumbnail", variant: "destructive" });
+      setIsUploadingImage(false);
+    }
+  };
+
   const upLoadAudio = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     try {
@@ -73,6 +103,27 @@ const CreatePodcast = () => {
         .arrayBuffer()
         .then((arrayBuffer) => new Blob([arrayBuffer]));
       handleAudio(blob, file.name);
+      toast({
+        title: "Successfully Uploaded your Podcast",
+        variant: "destructive",
+        type: "foreground",
+      });
+    } catch (error) {
+      console.log(error);
+      toast({ title: "Error Uploading Podcast", variant: "destructive" });
+    }
+  };
+
+  const upLoadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    try {
+      const files = e.target.files;
+      if (!files) return;
+      const file = files[0];
+      const blob = await file
+        .arrayBuffer()
+        .then((arrayBuffer) => new Blob([arrayBuffer]));
+      handleImage(blob, file.name);
       toast({
         title: "Successfully Uploaded your Podcast",
         variant: "destructive",
@@ -113,8 +164,10 @@ const CreatePodcast = () => {
         podcastTitle: data.podcastTitle,
         podcastDescription: data.podcastDescription,
         audioUrl: audioUrl,
+        imageUrl: imageUrl,
         views: 0,
         audioStorageId: storageId!,
+        imageStoraegId: imageStoraegId!,
       });
 
       toast({
@@ -154,7 +207,7 @@ const CreatePodcast = () => {
             Podcast Title <span className="font-extrabold text-red-500">*</span>
           </label>
 
-          <input
+          <Input
             className=" focus-visible:ring-orange-400 input-class"
             placeholder="Podcast Title"
             {...register("podcastTitle")}
@@ -165,70 +218,115 @@ const CreatePodcast = () => {
             <span className="font-extrabold text-red-500">*</span>
           </label>
 
-          <textarea
+          <Textarea
             className=" focus-visible:ring-orange-400 input-class"
             placeholder="Write a podcast description"
             {...register("podcastDescription")}
           />
         </div>
-
-        <div className="flex flex-col w-56 m-auto">
-          <div
-            className="flex flex-col h-40 w-full  bg-slate-300 items-center cursor-pointer "
-            onClick={() => podcastInput?.current?.click()}
-          >
-            <input
-              className="hidden"
-              type="file"
-              ref={podcastInput}
-              onChange={(e) => upLoadAudio(e)}
-              disabled={isUploading}
-            />
-            {isUploading ? (
-              <div className="flex gap-5 mt-5 justify-center items-center h-full w-full">
-                Uploading <Loader2 className="animate-spin" />
-              </div>
-            ) : (
-              <div className="flex flex-col gap-2 mt-5 justify-center items-center h-full w-full">
-                <Upload className="size-10" />
-                <span>Upload Podcast</span>
-                <span className="font-thin text-14 text-slate-900">
-                  File type: mpeg or ogg
-                </span>
-              </div>
-            )}
-          </div>
-          <span className="font-bold text-16 mt-2">Select The Audio file</span>
-        </div>
-
         <div className="w-full flex flex-col items-center">
+          <div className="flex flex-col w-full items-center mx-auto mb-10">
+            <div
+              className="flex flex-col h-40 w-56  bg-slate-300 items-center cursor-pointer "
+              onClick={() => podcastInput?.current?.click()}
+            >
+              <input
+                className="hidden"
+                type="file"
+                ref={podcastInput}
+                onChange={(e) => upLoadAudio(e)}
+                disabled={isUploading}
+              />
+              {isUploading ? (
+                <div className="flex gap-5 mt-5 justify-center items-center h-full w-full">
+                  Uploading <Loader2 className="animate-spin" />
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2 mt-5 justify-center items-center h-full w-full">
+                  <Upload className="size-10" />
+                  <span>Upload Podcast</span>
+                  <span className=" text-14 text-slate-800">
+                    File type: mpeg or ogg
+                  </span>
+                </div>
+              )}
+            </div>
+            <span className=" text-16 mt-2">
+              Select The Audio file
+            </span>
+          </div>
+
           {isUploading ? (
             <div className="flex gap-5 mt-5 justify-center items-center h-full w-full">
               Uploading <Loader2 className="animate-spin space-x-2" />
             </div>
           ) : (
             <>
-                <div className="flex w-full justify-center flex-col gap-2">
-                  <audio className="w-auto text-3" src={audioUrl} controls />
-                </div>
-                 
+              <div className="flex w-full justify-center flex-col gap-2">
+                <audio className="w-auto text-3" src={audioUrl} controls />
+              </div>
             </>
           )}
 
-        <button
-           className="text-white font-extrabold py-2 mt-10 px-10 w-fit bg-orange-400 rounded"
-          type="submit"
-        
-        >{isSubmitting ? (
+          <div className="flex flex-col w-full items-center m-auto mt-10">
+            <div
+              className="flex flex-col h-40  w-56 bg-slate-300 items-center cursor-pointer "
+              onClick={() => ImageInput?.current?.click()}
+            >
+              <input
+                className="hidden"
+                type="file"
+                ref={ImageInput}
+                onChange={(e) => upLoadImage(e)}
+                disabled={isUploadingImage}
+              />
+              {isUploadingImage ? (
+                <div className="flex gap-5 mt-5 justify-center items-center h-full w-full">
+                  Uploading <Loader2 className="animate-spin" />
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2 mt-5 justify-center items-center h-full w-full">
+                  <Upload className="size-10" />
+                  <span>Upload Image</span>
+                  <span className=" text-14 text-slate-800">
+                    File type: PNG, JPG, JPEG
+                  </span>
+                </div>
+              )}
+            </div>
+            <span className=" text-16 mt-2 mb-10">
+              Select an image for the thumbnail
+            </span>
+          </div>
+
+          <div className="min-w-56 min-h-40 mb-10 flex items-center flex-col bg-slate-100">
+             { !imageUrl? (
+            <div className="flex gap-5 mt-5 justify-center items-center h-full w-full">
+              Image Preview
+            </div>
+          ) : (
+            <>
+              <div className="flex w-full justify-center flex-col gap-2">
+                <Image className="w-auto text-3" width={50} height={50} src={imageUrl} alt="Thumbnail" />
+              </div>
+            </>
+          )}
+          </div>
+         
+
+          <button
+            className="text-white font-extrabold py-2 mt-10 px-10 w-fit bg-orange-400 rounded"
+            type="submit"
+          >
+            {isSubmitting ? (
               <span className="flex justify-between">
                 Submitting <Loader2 className="ml-3 animate-spin" />
               </span>
             ) : (
               "Publish Podcast"
-          )}
-        </button>
+            )}
+          </button>
         </div>
-
       </form>
     </section>
   );

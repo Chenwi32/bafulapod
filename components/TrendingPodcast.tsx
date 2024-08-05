@@ -15,17 +15,22 @@ const TrendingPodcast = () => {
               podcastTitle,
               podcastDescription,
               audioUrl,
+              imageUrl,
               audioStorageId,
-            }) => (
+            }) => {
+              console.log(imageUrl)
+              return (
               <PodcastCard
                 key={audioStorageId}
                 id={audioStorageId as any}
                 title={podcastTitle}
                 description={podcastDescription}
                 audioUrl={audioUrl as any}
+                imageUrl={imageUrl as string}
                 author={author as any}
+                
               />
-            )
+            )}
           )}
         </div>
       </div>
