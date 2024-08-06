@@ -16,7 +16,7 @@ const LeftSideBar = () => {
         <nav className=" flex flex-col">
           <Link className="flex items-end  p-2 gap-2 " href={"/"}>
             <Image src="/icons/logo1.svg" width={30} height={30} alt="logo" />{" "}
-            <span className=" font-extrabold">NativeLanPod</span>
+            <span className=" font-extrabold">Niilong</span>
           </Link>
           {sideBarLinks.map((route) => {
             const isActive =

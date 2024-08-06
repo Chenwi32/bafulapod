@@ -25,7 +25,7 @@ const Navbar = () => {
             </Button>
           </Link>
           <Link href={"/sign-up"}>
-            <Button className="bg-orange-400 font-bold rounded text-white">
+            <Button className="bg-orange-400 font-bold rounded text-white hover:bg-slate-950">
               Sign Up
             </Button>
           </Link>
