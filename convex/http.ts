@@ -11,8 +11,7 @@ import { Webhook } from "svix";
 
 import { api, internal } from "./_generated/api";
 import { httpAction } from "./_generated/server";
-import { PodcastProps } from '../types/index';
-import { any } from "zod";
+
 
 const handleClerkWebhook = httpAction(async (ctx, request) => {
   const event = await validateRequest(request);
