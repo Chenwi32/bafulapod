@@ -1,5 +1,6 @@
 "use client"
 import Banner from "@/components/Banner";
+import MobileBanner from "@/components/MobileBanner";
 import TrendingPodcast from "@/components/TrendingPodcast";
 import Head from "next/head";
 
@@ -14,7 +15,13 @@ const page = () => {
         <meta property="og:image:height" content="630" />
       </Head>
       <div className="container  max-w-none p-0">
-        <Banner />
+        <div className="lg:hidden">
+          <MobileBanner />
+        </div>
+        <div className="hidden lg:block">
+          <Banner />
+        </div>
+        
         <TrendingPodcast />
       </div>
     </>

@@ -31,7 +31,7 @@ export default function Layout({
               <Navbar />
             </div>
 
-            <div className=" container p-0 sm:p-5 flex top-10 justify-between relative ">
+            <div className=" container p-0 sm:p-5 flex top-16 justify-between relative ">
               <div className="hidden lg:block">
                 <LeftSideBar />
               </div>
