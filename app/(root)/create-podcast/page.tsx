@@ -57,7 +57,7 @@ const CreatePodcast = () => {
     setIsUploading(true);
     setSelectedPodcast(null);
     try {
-      const file = new File([blob], fileName, { type: "audio/mp3" });
+      const file = new File([blob], fileName, { type: "audio/mpeg", });
       const uploaded = await startUpload([file]);
       const storageId = (uploaded[0].response as any).storageId;
       setStorageId(storageId);
@@ -285,11 +285,11 @@ const CreatePodcast = () => {
                   Uploading <Loader2 className="animate-spin" />
                 </div>
               ) : (
-                <div className="flex flex-col gap-2 mt-5 justify-center items-center h-full w-full">
+                <div className="flex flex-col gap-2 p-3 text-center mt-5 justify-center items-center h-full w-full">
                   <Upload className="size-10" />
                   <span>Upload Image</span>
                   <span className=" text-14 text-slate-800">
-                    File type: PNG, JPG, JPEG
+                    File type: PNG, JPG, JPEG of at least 500 X 359 pixels
                   </span>
                 </div>
               )}
