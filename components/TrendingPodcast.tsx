@@ -7,7 +7,8 @@ const TrendingPodcast = () => {
     return (
       <div className=" flex flex-col items-center">
         <div>
-          <h1 className="font-bold text-xl mb-5">Trending Podcast</h1>
+          <h1 className="font-bold text-xl">Trending Podcast</h1>
+          <div className="h-1 border-b-2 border-orange-400 w-20  mb-5"></div>
         <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-5 ">
           {podcastData?.map(
             ({

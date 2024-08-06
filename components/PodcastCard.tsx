@@ -21,7 +21,7 @@ const PodcastCard = ({
     
       <div className="bg-orange-50  h-full shadow-lg sm:w-72 sm:min-w-36 rounded">
       <figure className="flex w-full h-fit p-0 justify-between flex-col gap-2">
-        <div className="min-w-56 max-h-80 min-h-40 h-fit">
+        <div className="min-w-56 max-h-72 min-h-40 h-fit">
         {
           imageUrl === undefined ? (
             <div className="p-5">
@@ -35,7 +35,7 @@ const PodcastCard = ({
           alt={title}
           width={500}
           height={250}
-          className="aspect-auto h-fit min-w-full rounded-xl"
+          className="aspect-auto max-h-72 h-fit min-w-full rounded-xl"
         />
           </>
           
@@ -43,7 +43,7 @@ const PodcastCard = ({
      }   
         </div> 
 
-        <div className="p-5 h-full max-w-lg w-full">
+        <div className="p-5 h-full mt-2 max-w-lg w-full">
           
               <audio className="w-full mb-5" src={audioUrl} controls />
           
