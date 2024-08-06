@@ -19,9 +19,9 @@ const PodcastCard = ({
   
   return (
     
-      <div className="bg-slate-200 shadow-lg sm:w-72 sm:min-w-36 rounded">
-      <figure className="flex w-full p-0 justify-center flex-col gap-2">
-        <div className="min-w-56  min-h-40 h-40">
+      <div className="bg-orange-50  h-full shadow-lg sm:w-72 sm:min-w-36 rounded">
+      <figure className="flex w-full h-fit p-0 justify-between flex-col gap-2">
+        <div className="min-w-56 max-h-80 min-h-40 h-fit">
         {
           imageUrl === undefined ? (
             <div className="p-5">
@@ -43,7 +43,7 @@ const PodcastCard = ({
      }   
         </div> 
 
-        <div className="p-5 relative max-w-sm w-full">
+        <div className="p-5 h-full max-w-lg w-full">
           
               <audio className="w-full mb-5" src={audioUrl} controls />
           
