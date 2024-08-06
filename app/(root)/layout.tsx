@@ -39,7 +39,7 @@ export default function Layout({
                 <LeftSideBar />
               </div>
 
-              <section className=" flex flex-1 min-h-screen flex-col  lg:px-1 sm:px-14 ">
+              <section className=" flex flex-1 min-h-screen flex-col  lg:px-1 ">
                 <div className="mx-auto flex w-full max-w-5xl flex-col max-sm:px-4">
                   <div className="flex flex-col py-10 md:pb-14">
                     <Toaster />

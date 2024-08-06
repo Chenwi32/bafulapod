@@ -1,7 +1,5 @@
-import Image from "next/image";
-import { AspectRatio } from "./ui/aspect-ratio";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { ImageDown, ImageIcon } from "lucide-react";
+import Image from "next/image"
+import { ImageIcon } from "lucide-react";
 
 const PodcastCard = ({
   id,
@@ -19,16 +17,17 @@ const PodcastCard = ({
   author: string;
   }) => {
   
- /*  console.log(imageUrl) */
   return (
-    <div className="bg-slate-200 shadow-lg  w-full rounded">
-      <figure className="flex w-full max-w-max p-0 justify-center flex-col gap-2">
+    
+      <div className="bg-slate-200 shadow-lg sm:w-72 sm:min-w-36 rounded">
+      <figure className="flex w-full p-0 justify-center flex-col gap-2">
+        <div className="min-w-56  min-h-40 h-40">
         {
           imageUrl === undefined ? (
-            <>
+            <div className="p-5">
               <ImageIcon className="size-10" />
               Thumbnail not found
-            </>
+            </div>
           ): (
               <>
               <Image
@@ -36,15 +35,19 @@ const PodcastCard = ({
           alt={title}
           width={500}
           height={250}
-          className="aspect-auto h-fit w-full rounded-xl"
+          className="aspect-auto h-fit min-w-full rounded-xl"
         />
           </>
           
           )
      }   
+        </div> 
 
-        <div className="p-5 w-full">
-          <audio className="w-full mb-5" src={audioUrl} controls />
+        <div className="p-5 relative max-w-sm w-full">
+          
+              <audio className="w-full mb-5" src={audioUrl} controls />
+          
+        
 
           <h1 className="text-xl font-bold truncate">{title}</h1>
           <h1 className="  truncate">
@@ -54,6 +57,7 @@ const PodcastCard = ({
         </div>
       </figure>
     </div>
+    
   );
 };
 
