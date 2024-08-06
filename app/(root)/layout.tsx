@@ -6,12 +6,13 @@ import { ToastProvider } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
 
 import Navbar from "@/components/Navbar";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Niilong",
-  description: "Native Language Podcast Platform",
+  description: "Stay Connected To Your Roots Wherever You Are In The World.",
   icons: {
     icon: "/icons/logo.svg",
   },
@@ -24,6 +25,16 @@ export default function Layout({
 }>) {
   return (
     <html>
+      <Head>
+        <meta property="og:title" content="NiiLong" />
+        <meta
+          property="og:description"
+          content="Stay Connected To Your Roots Wherever You Are In The World."
+        />
+        <meta property="og:image" content="/icons/image0.png" />
+        <meta property="og:image:width" content="500px" />
+        <meta property="og:image:height" content="350px" />
+      </Head>
       <ToastProvider>
         <body className="relative flex flex-col">
           <div>
@@ -46,7 +57,7 @@ export default function Layout({
                 </div>
               </section>
 
-           {/*    <div className="hidden lg:block">
+              {/*    <div className="hidden lg:block">
                 <RightSideBar />
               </div> */}
             </div>
