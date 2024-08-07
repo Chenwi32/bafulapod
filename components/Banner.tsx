@@ -5,7 +5,7 @@ const Banner = () => {
   return (
     <div className="mb-20 shadow-md flex justify-between  rounded-xl ">
       <div className="p-5">
-        <h1 className="font-extrabold mb-5 text-orange-400 text-5xl">
+        <h1  className="font-extrabold mb-5 text-orange-400 text-5xl">
           Niilong
         </h1>
         <h1 className="font-bold capitalize text-slate-950 text-5xl mb-5">

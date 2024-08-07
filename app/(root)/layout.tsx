@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 import Navbar from "@/components/Navbar";
 import Head from "next/head";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,13 +37,13 @@ export default function Layout({
         <meta property="og:image:height" content="350px" />
       </Head>
       <ToastProvider>
-        <body className="relative flex flex-col">
-          <div>
+        <body className="relative ">
+          
             <div className=" bg-white z-10 py-2 px-5 shadow-md fixed w-full mb-5">
               <Navbar />
             </div>
 
-            <div className=" container p-0 sm:p-5 flex top-16 justify-between relative ">
+            <div className=" container p-0 sm:p-5 flex top-16 justify-between">
               <div className="hidden lg:block">
                 <LeftSideBar />
               </div>
@@ -57,11 +58,13 @@ export default function Layout({
                 </div>
               </section>
 
-              {/*    <div className="hidden lg:block">
-                <RightSideBar />
-              </div> */}
-            </div>
+             
+            
           </div>
+
+           <div className="brand-1">
+                <Footer/>
+          </div> 
         </body>
       </ToastProvider>
     </html>
