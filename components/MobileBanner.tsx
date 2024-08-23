@@ -5,12 +5,12 @@ import Link from "next/link";
 const MobileBanner = () => {
   return (
     <div className="mb-20 text-center shadow-md flex justify-between  rounded-xl ">
-      <div className="p-5">
+      <div className="py-5 flex flex-col items-center">
         <h1 className="font-extrabold mb-5 text-orange-400 text-4xl sm:text-5xl">
           Niilong
         </h1>
-        <h1 className="font-bold capitalize text-slate-950 text-4xl sm:text-5xl mb-5">
-          Stay Connected to Your Roots{" "} <br />
+        <h1 className="font-bold capitalize text-slate-950 text-3xl sm:text-4xl mb-5">
+          Stay Connected to Your Roots <br />
           <span className="text-orange-400">wherever</span> you are in the
           World.
         </h1>
@@ -26,14 +26,14 @@ const MobileBanner = () => {
           where you are, learn your native Language Stay informed on stories
           from home and stay connected to your roots.
         </p>
-        <div className="flex gap-5 justify-center">
+        <div className="flex gap-10 justify-center">
           <Link href={"/sign-in"}>
-            <Button className=" w-40 font-bold rounded text-slate-950 border-2 border-slate-950">
+            <Button className=" font-bold rounded hover:bg-slate-950 hover:text-white text-slate-950 px-5 sm:w-32 border-2 border-slate-950">
               Sign In
             </Button>
           </Link>
           <Link href={"/sign-up"}>
-            <Button className="bg-orange-400 w-40 font-bold rounded text-white hover:bg-slate-950">
+            <Button className="bg-orange-400 sm:w-32 px-5 font-bold rounded text-white hover:bg-slate-950">
               Sign Up
             </Button>
           </Link>
