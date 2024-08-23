@@ -20,7 +20,7 @@ const Navbar = () => {
       <div className="flex gap-5">
         <SignedOut>
           <Link href={"/sign-in"}>
-            <Button className=" font-bold rounded text-slate-950 border-2 border-slate-950">
+            <Button className=" font-bold rounded hover:bg-slate-950 hover:text-white text-slate-950 border-2 border-slate-950">
               Sign In
             </Button>
           </Link>
@@ -31,7 +31,7 @@ const Navbar = () => {
           </Link>
         </SignedOut>
 
-        <SignedIn> 
+        <SignedIn>
           <div className="flex gap-5">
             <Menubar className="border-none lg:hidden p-0">
               <MenubarMenu>
@@ -53,21 +53,19 @@ const Navbar = () => {
                           href={route.route}
                         >
                           <MenubarItem>
-                             <Image
-                            src={route.ImageUrl}
-                            alt="logo"
-                            width={20}
+                            <Image
+                              src={route.ImageUrl}
+                              alt="logo"
+                              width={20}
                               height={20}
                               className="mr-2"
-                          />
-                          <span className="max-lg:"> {route.label}</span>
+                            />
+                            <span className="max-lg:"> {route.label}</span>
                           </MenubarItem>
-                         
                         </Link>
                       </div>
                     );
                   })}
-                  
                 </MenubarContent>
               </MenubarMenu>
             </Menubar>
