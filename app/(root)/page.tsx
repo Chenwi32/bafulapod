@@ -25,8 +25,8 @@ const page = () => {
           <Banner />
         </div>
 
-        {/* This displays trending podcast on the root homepage and is disabled now pending convex proaccout activation
-        <TrendingPodcast /> */}
+        {/* This displays trending podcast on the root homepage and is disabled now pending convex proaccout activation*/}
+        <TrendingPodcast /> 
       </div>
     </>
   );
