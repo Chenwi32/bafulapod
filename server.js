@@ -5,7 +5,7 @@ import { Server } from "socket.io";
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000", // Replace with your frontend URL
+    origin: "https://niilong.vercel.app/", // Replace with your frontend URL
     methods: ["GET", "POST"],
   },
 });
