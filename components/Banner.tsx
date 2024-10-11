@@ -20,7 +20,7 @@ const Banner = () => {
         </p>
         <div className="flex gap-5">
           <Link href={"/sign-in"}>
-            <Button className=" w-40 font-bold rounded text-slate-950 border-2 border-slate-950">
+            <Button className=" w-40 hover:text-white bg-inherit font-bold rounded text-slate-950 border-2 border-slate-950">
               Sign In
             </Button>
           </Link>
