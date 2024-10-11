@@ -13,8 +13,8 @@ const Footer = () => {
         <p className="text-sm font-bold">&copy; 2024 Niilong </p>
       </div>
 
-      <Link href="#up">
-        <Button className="border border-slate-950 text-slate-950 p-2 rounded-full absolute top-5 right-5">
+      <Link href="#up" className="fixed top-3/4 right-10">
+        <Button className="border bg-inherit border-slate-950 text-slate-950 p-2 rounded-full absolute top-5 right-5">
           <ArrowUp />
         </Button>
       </Link>
