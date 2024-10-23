@@ -28,7 +28,7 @@ const MobileBanner = () => {
         </p>
         <div className="flex gap-10 justify-center">
           <Link href={"/sign-in"}>
-            <Button className=" font-bold rounded hover:bg-slate-950 hover:text-white text-slate-950 px-5 sm:w-32 border-2 border-slate-950">
+            <Button className=" bg-inherit font-bold rounded hover:bg-slate-950 hover:text-white text-slate-950 px-5 sm:w-32 border-2 border-slate-950">
               Sign In
             </Button>
           </Link>

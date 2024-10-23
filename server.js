@@ -1,26 +1,29 @@
-import { createServer } from "http";
+import { createServer } from "node:http";
+import next from "next";
 import { Server } from "socket.io";
 
-// Set up the HTTP server and Socket.io server
-const httpServer = createServer();
-const io = new Server(httpServer, {
-  cors: {
-    origin: "https://niilong.vercel.app/", // Replace with your frontend URL
-    methods: ["GET", "POST"],
-  },
-});
+const dev = process.env.NODE_ENV !== "production";
+const hostname = "localhost";
+const port = 3000;
+// when using middleware `hostname` and `port` must be provided below
+const app = next({ dev, hostname, port });
+const handler = app.getRequestHandler();
 
-// Handle socket connections and broadcast audio
-io.on("connection", (socket) => {
-  socket.on("broadcastAudio", (audioData) => {
-    io.emit("audioBroadcast", audioData);
+app.prepare().then(() => {
+  const httpServer = createServer(handler);
+
+  const io = new Server(httpServer);
+
+  io.on("connection", (socket) => {
+    // ...
   });
+
+  httpServer
+    .once("error", (err) => {
+      console.error(err);
+      process.exit(1);
+    })
+    .listen(port, () => {
+      console.log(`> Ready on http://${hostname}:${port}`);
+    });
 });
-
-// Start the HTTP server
-httpServer.listen(3001, () => {
-  console.log("Socket.io server listening on port 3001");
-});
-
-
-

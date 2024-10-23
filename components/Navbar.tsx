@@ -20,7 +20,7 @@ const Navbar = () => {
       <div className="flex gap-5">
         <SignedOut>
           <Link href={"/sign-in"}>
-            <Button className=" font-bold rounded hover:bg-slate-950 hover:text-white text-slate-950 border-2 border-slate-950">
+            <Button className="bg-inherit font-bold rounded hover:bg-slate-950 hover:text-white text-slate-950 border-2 border-slate-950">
               Sign In
             </Button>
           </Link>
