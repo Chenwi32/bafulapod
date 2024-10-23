@@ -14,7 +14,7 @@ const Footer = () => {
       </div>
 
       <Link href="#up" className="fixed top-3/4 right-10">
-        <Button className="border bg-inherit border-slate-950 text-slate-950 p-2 rounded-full absolute top-5 right-5">
+        <Button className="border hover:text-white bg-inherit border-slate-950 text-slate-950 p-2 rounded-full absolute top-5 right-5">
           <ArrowUp />
         </Button>
       </Link>
