@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { SignedOut } from "@clerk/nextjs";
 
 const MobileBanner = () => {
   return (
@@ -26,6 +27,7 @@ const MobileBanner = () => {
           where you are, learn your native Language Stay informed on stories
           from home and stay connected to your roots.
         </p>
+     <SignedOut>
         <div className="flex gap-10 justify-center">
           <Link href={"/sign-in"}>
             <Button className=" bg-inherit font-bold rounded hover:bg-slate-950 hover:text-white text-slate-950 px-5 sm:w-32 border-2 border-slate-950">
@@ -38,6 +40,7 @@ const MobileBanner = () => {
             </Button>
           </Link>
         </div>
+        </SignedOut>
       </div>
     </div>
   );
