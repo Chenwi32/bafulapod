@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { SignedOut } from "@clerk/nextjs";
 const Banner = () => {
   return (
     <div className="mb-20 shadow-md flex justify-between  rounded-xl ">
@@ -18,18 +19,20 @@ const Banner = () => {
           where you are, learn your native Language Stay informed on stories
           from home and stay connected to your roots.
         </p>
-        <div className="flex gap-5">
-          <Link href={"/sign-in"}>
-            <Button className=" w-40 hover:text-white bg-inherit font-bold rounded text-slate-950 border-2 border-slate-950">
-              Sign In
-            </Button>
-          </Link>
-          <Link href={"/sign-up"}>
-            <Button className="bg-orange-400 w-40 font-bold rounded text-white hover:bg-slate-950">
-              Sign Up
-            </Button>
-          </Link>
-        </div>
+        <SignedOut>
+          <div className="flex gap-5">
+            <Link href={"/sign-in"}>
+              <Button className=" w-40 hover:text-white bg-inherit font-bold rounded text-slate-950 border-2 border-slate-950">
+                Sign In
+              </Button>
+            </Link>
+            <Link href={"/sign-up"}>
+              <Button className="bg-orange-400 w-40 font-bold rounded text-white hover:bg-slate-950">
+                Sign Up
+              </Button>
+            </Link>
+          </div>
+        </SignedOut>
       </div>
 
       <Image

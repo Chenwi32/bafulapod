@@ -43,7 +43,7 @@ export default function Layout({
           </div>
 
           <div className=" container p-0 sm:p-5 flex mt-20 justify-between">
-            <div className="hidden lg:block">
+            <div className="hidden lg:block shadow-lg p-2">
               <LeftSideBar />
             </div>
 

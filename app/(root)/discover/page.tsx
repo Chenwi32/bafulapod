@@ -1,9 +1,12 @@
+"use client";
+import TrendingPodcast from "@/components/TrendingPodcast";
+
 const DiscoverPage = () => {
-    return (
-      <div>
-        <h1 className="font-extrabold text-xl"> Discover Page</h1>
-      </div>
-    );
-}
+  return (
+    <div>
+      <TrendingPodcast />
+    </div>
+  );
+};
 
 export default DiscoverPage;

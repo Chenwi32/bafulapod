@@ -12,7 +12,7 @@ const LeftSideBar = () => {
 
   return (
     <SignedIn>
-      <section className=" hidden sm:block">
+      <section className=" hidden sm:block ">
         <nav className=" flex flex-col">
           <Link className="flex items-end  p-2 gap-2 " href={"/"}>
             <Image src="/icons/logo1.svg" width={30} height={30} alt="logo" />{" "}
